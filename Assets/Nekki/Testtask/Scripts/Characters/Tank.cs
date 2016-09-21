@@ -22,11 +22,21 @@ public class Tank : Character<Tank> {
 		base.die ();
 	}
 
-	private void OnTriggerEnter(Collider collider) {
+	private void checkCollision(Collider collider) {
 		var monster = collider.GetComponent<Monster>();
 		if (monster != null && Time.realtimeSinceStartup >= lastMonstertCollisionTime + monsterAttackCooldown) {
 			lastMonstertCollisionTime = Time.realtimeSinceStartup;
 			applyDamage(monster.damage);
 		}
+	}
+
+	private void OnTriggerEnter(Collider collider) {
+		Debug.Log("OnTriggerEnter");
+		checkCollision(collider);
+	}
+
+	private void OnTriggerStay(Collider collider) {
+		Debug.Log("OnTriggerStay");
+		checkCollision(collider);
 	}
 }
